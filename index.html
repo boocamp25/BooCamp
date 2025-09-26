@@ -39,23 +39,21 @@
     /* ===== Haunted Door (PNG) ===== */
     .door-wrap {
       position: relative;
-      width: min(440px, 82vw);  /* slightly smaller than last version */
+      width: min(440px, 82vw);  /* slightly smaller */
       margin: 8px auto 0;
       display: grid;
       gap: 10px;
       justify-items: center;
     }
 
-    /* “Enter if you dare” above the door */
     .cta-label {
-      order: -1; /* put it above */
+      order: -1;
       letter-spacing: .12em;
       font-weight: 900;
       color:#9bffbf;
       text-shadow: 0 0 16px rgba(0,255,128,.65), 0 0 2px rgba(0,255,128,.35);
     }
 
-    /* Door link/image */
     .door-link { display:inline-block; outline: none; text-decoration: none; position: relative; }
     .door {
       width: 100%;
@@ -66,18 +64,14 @@
       position: relative;
       z-index: 2;
     }
-    .door-link:hover .door {
-      transform: scale(1.02);
-      filter: drop-shadow(0 0 34px rgba(0,255,120,0.9));
-    }
+    .door-link:hover .door { transform: scale(1.02); filter: drop-shadow(0 0 34px rgba(0,255,120,0.9)); }
     .door-link:active .door { transform: scale(.997) translateY(1px); }
 
     /* Extra green mist/halo behind the door (animated) */
     .mist {
       position: absolute;
-      inset: -10% -12% -8% -12%; /* extend beyond the door for a halo */
-      z-index: 1;
-      pointer-events: none;
+      inset: -10% -12% -8% -12%;
+      z-index: 1; pointer-events: none;
       filter: blur(18px) saturate(120%);
       opacity: .45;
       background:
@@ -95,23 +89,21 @@
         radial-gradient(55% 50% at 85% 45%, rgba(0,255,120,.16), transparent 60%);
       animation: mistShift2 7.5s ease-in-out infinite alternate;
     }
-    @keyframes mistShift {
-      from { transform: translateY(0) }
-      to   { transform: translateY(-6px) }
-    }
-    @keyframes mistShift2 {
-      from { transform: translateX(-6px) }
-      to   { transform: translateX(6px) }
-    }
+    @keyframes mistShift { from { transform: translateY(0) } to { transform: translateY(-6px) } }
+    @keyframes mistShift2 { from { transform: translateX(-6px) } to { transform: translateX(6px) } }
 
-    /* Footer (optional minimal) */
-    .foot { color:#777; font-size:12px; margin-top: 14px; }
+    .warn {
+      color: #ff6b6b;
+      font-weight: 800;
+      margin-top: 6px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
   <main class="container">
     <!-- Logo must exist in repo root -->
-    <img src="boocamp-logo.png?v=8" alt="Boo Camp Logo" class="logo" />
+    <img id="logoImg" src="boocamp-logo.png" alt="Boo Camp Logo" class="logo" />
 
     <h1 class="title">Survive Boo Camp</h1>
     <p class="tagline">31 days. You command the workout.</p>
@@ -123,13 +115,17 @@
       <div class="cta-label">ENTER IF YOU DARE</div>
 
       <a class="door-link" href="https://kick.com/jerrysnotfunny" target="_blank" aria-label="Enter Boo Camp on Kick">
-        <!-- extra green mist halo behind the door -->
         <span class="mist" aria-hidden="true"></span>
         <span class="mist m2" aria-hidden="true"></span>
 
         <!-- your PNG door file (place in repo root) -->
-        <img src="haunted-door.png?v=2" alt="Haunted Door – Enter Boo Camp" class="door" />
+        <img id="doorImg" src="haunted-door.png" alt="Haunted Door – Enter Boo Camp" class="door" />
       </a>
+
+      <!-- inline warnings shown only if an image fails to load -->
+      <div id="doorWarn" class="warn" style="display:none">
+        (Door image not found: make sure <strong>haunted-door.png</strong> is in the repo root)
+      </div>
     </div>
   </main>
 
@@ -143,10 +139,23 @@
       const h = Math.floor((total / (1000*60*60)) % 24);
       const m = Math.floor((total / (1000*60)) % 60);
       const s = Math.floor((total / 1000) % 60);
-      const el = document.getElementById('countdown');
-      el.textContent = total <= 0 ? "LIVE NOW" : `${d}d ${h}h ${m}m ${s}s`;
+      document.getElementById('countdown').textContent = total <= 0 ? "LIVE NOW" : `${d}d ${h}h ${m}m ${s}s`;
     }
     setInterval(updateCountdown, 1000); updateCountdown();
+
+    // Show helpful warnings if images fail to load
+    const logoImg = document.getElementById('logoImg');
+    const doorImg = document.getElementById('doorImg');
+    const doorWarn = document.getElementById('doorWarn');
+
+    logoImg.addEventListener('error', () => {
+      logoImg.replaceWith(Object.assign(document.createElement('div'), {
+        className: 'warn',
+        innerHTML: '(Logo not found: place <strong>boocamp-logo.png</strong> next to index.html)'
+      }));
+    });
+
+    doorImg.addEventListener('error', () => { doorWarn.style.display = 'block'; });
   </script>
 </body>
 </html>
