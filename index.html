@@ -23,8 +23,8 @@
     /* Big logo */
     .logo {
       height: clamp(200px, 40vw, 380px);
-      width: auto; display: block; margin: 0 auto 4px;
-      filter: drop-shadow(0 0 24px rgba(255,0,0,0.6));
+      width: auto; display: block; margin: 0 auto 6px;
+      filter: drop-shadow(0 0 24px rgba(255,0,0,0.55));
     }
 
     .title {
@@ -34,122 +34,163 @@
     }
 
     .tagline { margin: 6px 0 8px; color:#cfcfcf; font-size: clamp(16px, 2.5vw, 22px); }
-    .countdown { font-size: clamp(28px, 7vw, 60px); font-weight: 800; margin: 2px 0 10px; }
+    .countdown { font-size: clamp(28px, 7vw, 60px); font-weight: 800; margin: 4px 0 4px; }
 
-    /* ===== SCARY DOOR LINK ===== */
-    .door-wrap {
-      width: min(520px, 82vw);
-      margin: 8px auto 0;
+    /* ===== Scary Door ===== */
+    .cta-label {
+      letter-spacing: .12em;
+      font-weight: 900;
+      color:#9bffbf;
+      text-shadow: 0 0 16px rgba(0,255,128,.55), 0 0 2px rgba(0,255,128,.35);
+      margin-top: 8px;
     }
-    .door-link {
-      display: inline-block;
-      outline: none;
-    }
+
+    .door-wrap { width: min(560px, 90vw); margin: 8px auto 0; }
+    .door-link { display:inline-block; outline: none; text-decoration: none; }
     .door {
-      width: 100%;
-      height: auto;
-      display: block;
-      filter: drop-shadow(0 0 8px rgba(0,255,0,.35));
+      width: 100%; height: auto; display:block;
+      filter: drop-shadow(0 0 10px rgba(0,255,120,.35));
+      transform-origin: center;
+      transition: transform .12s ease;
+    }
+    /* Hover effects: shake + stronger glow */
+    .door-link:hover .door { animation: shake .45s ease-in-out; filter: drop-shadow(0 0 18px rgba(0,255,120,.65)); }
+    .door-link:active  .door { transform: translateY(1px) scale(.997); }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0) }
+      25% { transform: translateX(-2px) }
+      50% { transform: translateX(2px) }
+      75% { transform: translateX(-1px) }
     }
 
-    /* Flicker + hover pulse */
+    /* Flicker on glow elements */
     @keyframes flicker {
-      0%, 100% { opacity: .95; }
-      5% { opacity: .6; }
-      8% { opacity: .95; }
-      13% { opacity: .7; }
-      15% { opacity: .95; }
-      22% { opacity: .8; }
-      23% { opacity: .95; }
-      30% { opacity: .88; }
-      31% { opacity: .95; }
+      0%,100% { opacity: .95 }
+      7%  { opacity: .6 }
+      12% { opacity: .95 }
+      18% { opacity: .7 }
+      22% { opacity: .95 }
+      28% { opacity: .82 }
+      30% { opacity: .95 }
     }
-    .glow { animation: flicker 4s infinite; }
-    .door-link:hover .glow { filter: url(#outerGlowStrong); }
-    .door-link:active { transform: translateY(1px); }
+    .flicker { animation: flicker 4.8s infinite; }
 
-    /* Visually-hidden label for accessibility */
-    .sr-only {
-      position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
+    /* Fog sweep */
+    @keyframes fog {
+      from { transform: translateX(-20%); opacity:.06 }
+      to   { transform: translateX(20%);  opacity:.14 }
     }
+    .fog { animation: fog 6s ease-in-out infinite alternate; }
+
   </style>
 </head>
 <body>
   <main class="container">
-    <!-- Logo file must exist in repo root as boocamp-logo.png -->
-    <img src="boocamp-logo.png?v=6" alt="Boo Camp Logo" class="logo" />
+    <!-- Logo must exist at repo root as boocamp-logo.png -->
+    <img src="boocamp-logo.png?v=7" alt="Boo Camp Logo" class="logo" />
 
     <h1 class="title">Survive Boo Camp</h1>
     <p class="tagline">31 days. You command the workout.</p>
 
     <div id="countdown" class="countdown"></div>
 
-    <!-- ===== CLICKABLE SCARY DOOR (links to Kick) ===== -->
+    <div class="cta-label">ENTER IF YOU DARE</div>
+
+    <!-- ===== CLICKABLE HAUNTED DOOR (links to Kick) ===== -->
     <div class="door-wrap">
       <a class="door-link" href="https://kick.com/jerrysnotfunny" target="_blank" aria-label="Enter Boo Camp on Kick">
-        <span class="sr-only">Enter Boo Camp on Kick</span>
-        <!-- Inline SVG door with eerie green glow -->
-        <svg class="door" viewBox="0 0 420 640" role="img" aria-labelledby="doorTitle">
+        <!-- Haunted door: iron bands, runes, scratches, blood smears, chain + padlock, doorknob, neon green aura, fog -->
+        <svg class="door" viewBox="0 0 460 720" role="img" aria-labelledby="doorTitle">
           <title id="doorTitle">Haunted Door – Tap to Enter</title>
           <defs>
-            <!-- Outer green halo/glow filters -->
-            <filter id="outerGlow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
-              <feColorMatrix in="blur" type="matrix"
-                values="0 0 0 0 0
-                        0 1 0 0 1
-                        0 0 0 0 0
-                        0 0 0 1 0"/>
-            </filter>
-            <filter id="outerGlowStrong" x="-60%" y="-60%" width="220%" height="220%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="b"/>
+            <!-- Glows -->
+            <filter id="greenGlow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="16" result="b"/>
               <feColorMatrix in="b" type="matrix"
                 values="0 0 0 0 0
-                        0 1 0 0 1
+                        0 1 0 0 .8
                         0 0 0 0 0
                         0 0 0 1 0"/>
             </filter>
-
-            <!-- Wood grain gradient -->
             <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#0e0e0e"/>
-              <stop offset="1" stop-color="#1b1b1b"/>
+              <stop offset="0" stop-color="#0c0c0c"/>
+              <stop offset=".5" stop-color="#141414"/>
+              <stop offset="1" stop-color="#0f0f0f"/>
             </linearGradient>
-
-            <!-- Neon edge glow -->
             <linearGradient id="neonEdge" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#00ff66" stop-opacity=".15"/>
-              <stop offset=".5" stop-color="#00ff66" stop-opacity=".35"/>
-              <stop offset="1" stop-color="#00ff66" stop-opacity=".15"/>
+              <stop offset="0" stop-color="#00ff88" stop-opacity=".12"/>
+              <stop offset=".5" stop-color="#00ff88" stop-opacity=".35"/>
+              <stop offset="1" stop-color="#00ff88" stop-opacity=".12"/>
+            </linearGradient>
+            <linearGradient id="blood" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#ad0000"/>
+              <stop offset="1" stop-color="#ff1a1a"/>
             </linearGradient>
           </defs>
 
-          <!-- Outer frame -->
-          <rect x="20" y="20" width="380" height="600" rx="12"
-                fill="none" stroke="#0b0b0b" stroke-width="28"/>
-          <!-- Inner neon edge (subtle) -->
-          <rect x="26" y="26" width="368" height="588" rx="10" fill="none" stroke="url(#neonEdge)" stroke-width="4"/>
+          <!-- Outer frame + neon seam -->
+          <rect x="18" y="18" width="424" height="684" rx="16"
+                fill="none" stroke="#0b0b0b" stroke-width="30"/>
+          <rect x="26" y="26" width="408" height="668" rx="12"
+                fill="none" stroke="url(#neonEdge)" stroke-width="5" class="flicker" filter="url(#greenGlow)"/>
 
           <!-- Door slab -->
-          <g class="glow" filter="url(#outerGlow)">
-            <rect x="46" y="46" width="328" height="560" rx="6" fill="url(#wood)" stroke="#111" stroke-width="4"/>
+          <g filter="url(#greenGlow)" class="flicker">
+            <rect x="46" y="46" width="368" height="644" rx="8" fill="url(#wood)" stroke="#101010" stroke-width="4"/>
           </g>
 
-          <!-- Panels to make it look ‘real’ -->
-          <rect x="76" y="86" width="268" height="160" fill="#121212" stroke="#222" stroke-width="3"/>
-          <rect x="76" y="276" width="268" height="160" fill="#121212" stroke="#222" stroke-width="3"/>
-          <rect x="76" y="466" width="268" height="100" fill="#121212" stroke="#222" stroke-width="3"/>
+          <!-- Iron bands -->
+          <g>
+            <rect x="46" y="160" width="368" height="18" fill="#1c1c1c" stroke="#383838" stroke-width="3"/>
+            <rect x="46" y="330" width="368" height="18" fill="#1c1c1c" stroke="#383838" stroke-width="3"/>
+            <rect x="46" y="500" width="368" height="18" fill="#1c1c1c" stroke="#383838" stroke-width="3"/>
+          </g>
 
-          <!-- Hairline cracks/scratches -->
-          <path d="M115 130 l40 22 M140 165 l24 10 M270 200 l35 -18 M250 320 l50 14 M110 520 l60 -12"
-                stroke="#2a2a2a" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+          <!-- Scratches / runes -->
+          <g stroke="#262626" stroke-width="2" stroke-linecap="round" opacity=".65">
+            <path d="M90 110 l40 22 M130 130 l24 10 M300 160 l35 -18"/>
+            <path d="M250 250 l50 14 M120 290 l36 -10 M270 310 l30 12"/>
+            <path d="M110 560 l60 -12 M280 540 l40 -10 M200 588 l30 -6"/>
+            <!-- faint runes -->
+            <path d="M180 212 l12 0 l0 20 l-12 0z"/>
+            <path d="M205 212 l12 0 l0 20 l-12 0z"/>
+            <path d="M230 212 l12 0 l0 20 l-12 0z"/>
+          </g>
 
-          <!-- Handle with eerie hint -->
-          <circle cx="330" cy="340" r="10" fill="#0f0" opacity=".08"/>
-          <circle cx="328" cy="338" r="7" fill="#2a2a2a" stroke="#555" stroke-width="2"/>
+          <!-- Blood smears -->
+          <g opacity=".8">
+            <path d="M85 360 q30 -10 60 0 q-8 12 -60 20 z" fill="url(#blood)" opacity=".65"/>
+            <path d="M310 210 q20 -10 40 -6 q-6 12 -34 18 z" fill="url(#blood)" opacity=".55"/>
+            <path d="M140 470 q50 -10 110 4 q-10 16 -98 20 z" fill="url(#blood)" opacity=".45"/>
+          </g>
 
-          <!-- Threshold mist -->
-          <rect x="46" y="590" width="328" height="16" fill="#00ff66" opacity=".06"/>
+          <!-- Chain & padlock -->
+          <g stroke="#585858" stroke-width="8" fill="none" opacity=".8">
+            <path d="M120 300 q40 30 80 0 q40 -30 80 0 q40 30 80 0" />
+          </g>
+          <g>
+            <rect x="208" y="290" width="44" height="34" rx="4" fill="#202020" stroke="#6e6e6e" stroke-width="3"/>
+            <path d="M215 290 q0 -14 15 -14 h6 q15 0 15 14" fill="none" stroke="#6e6e6e" stroke-width="4"/>
+            <circle cx="230" cy="305" r="4" fill="#111"/>
+          </g>
+
+          <!-- Doorknob (beaten metal) -->
+          <g>
+            <radialGradient id="knobGrad" cx="0.35" cy="0.35" r="0.9">
+              <stop offset="0" stop-color="#d0d0d0"/>
+              <stop offset=".6" stop-color="#8a8a8a"/>
+              <stop offset="1" stop-color="#3a3a3a"/>
+            </radialGradient>
+            <circle cx="348" cy="360" r="16" fill="url(#knobGrad)" stroke="#1d1d1d" stroke-width="3"/>
+            <rect x="338" y="356" width="10" height="8" rx="2" fill="#111" opacity=".7"/>
+          </g>
+
+          <!-- Threshold fog -->
+          <g class="fog" opacity=".25">
+            <rect x="60" y="650" width="160" height="16" fill="#00ff88" />
+            <rect x="230" y="650" width="160" height="16" fill="#00ff88" />
+          </g>
         </svg>
       </a>
     </div>
