@@ -4,159 +4,76 @@
   <meta charset="utf-8" />
   <title>Boo Camp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Social preview (optional: add preview.png and uncomment)
-  <meta property="og:title" content="Boo Camp 2025 – 31 Days of Haunted Boot Camp" />
-  <meta property="og:description" content="Viewers control the workout. Oct 1–31. Watch on Kick + TikTok." />
-  <meta property="og:image" content="preview.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  -->
-
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
     html, body { margin: 0; background: #000; color: #fff; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
     a { color: #39ff14; text-decoration: none; }
-    a:hover { filter: brightness(1.15); }
+    a:hover { filter: brightness(1.1); }
 
-    /* BLOOD DRIP STRIP */
-    .blood-strip { position: relative; height: 86px; background: linear-gradient(#8e0000, #4a0000 60%, transparent 60%); overflow: hidden; }
-    .drip { position:absolute; top:60px; width:22px; height:46px; background:#4a0000; border-radius:0 0 14px 14px; }
-    .d1{left:8%;animation:dripT 2.6s infinite linear}.d2{left:28%;animation:dripT 3.1s infinite linear}
-    .d3{left:51%;animation:dripT 2.4s infinite linear}.d4{left:74%;animation:dripT 3.4s infinite linear}
-    .d5{left:90%;animation:dripT 2.8s infinite linear}
-    @keyframes dripT{0%{transform:translateY(-40px)}60%{transform:translateY(0)}100%{transform:translateY(0)}}
+    .container {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 24px 16px; text-align: center;
+    }
 
-    .container { min-height: 60vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 24px 16px 0; text-align:center; position:relative; }
+    /* Bigger logo (about 3x). Responsive cap for phones. */
+    .logo {
+      height: clamp(140px, 28vw, 270px);
+      width: auto;
+      display: block;
+      margin: 0 auto 12px;
+      filter: drop-shadow(0 0 22px rgba(255,0,0,.35));
+    }
 
-    /* SPIDERS */
-    .spider { position:absolute; top:-40px; width:1px; height:140px; background:#222; left:6%; transform-origin: top center; animation: sway 6s ease-in-out infinite; }
-    .spider:after{ content:""; position:absolute; bottom:-12px; left:-8px; width:17px; height:17px; border-radius:50%; background:#181818; box-shadow:0 0 8px rgba(255,0,0,.25); }
-    .spider.s2{ left:auto; right:10%; height:160px; animation-duration:7.5s; }
-    @keyframes sway { 0%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} 100%{transform:rotate(-3deg)} }
+    .title {
+      margin: 0 0 6px 0;
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 900;
+      letter-spacing: .5px;
+      color: #ff3636;
+      text-shadow: 0 0 12px rgba(255,0,0,.55);
+    }
 
-    /* LOGO */
-    .logo { margin: -48px auto 10px; height: 90px; width: auto; display:block; filter: drop-shadow(0 0 16px rgba(255,0,0,.45)); }
+    .tagline {
+      margin: 6px 0 22px;
+      color: #cfcfcf;
+      font-size: clamp(16px, 2.8vw, 20px);
+    }
 
-    /* HEADLINE with knife/hat */
-    .title-wrap { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
-    .title { margin: 0; font-size: clamp(36px, 6vw, 64px); font-weight: 900; letter-spacing:.5px; color: #ff3636; text-shadow: 0 0 12px rgba(255,0,0,.6); display:flex; align-items:center; gap:10px; }
-    .title .word { display:inline-flex; align-items:center; gap:10px; }
-    .icon { display:inline-block; vertical-align:middle; filter: drop-shadow(0 0 6px rgba(255,0,0,.35)); }
-    .icon-knife { width:36px; }
-    .icon-hat   { width:44px; }
+    .countdown {
+      font-size: clamp(28px, 6vw, 56px);
+      font-weight: 800;
+      letter-spacing: .5px;
+      margin: 8px 0 20px;
+    }
 
-    .tagline { margin: 8px 0 18px; color: #cfcfcf; }
-    .countdown { font-size: clamp(28px, 5vw, 54px); font-weight: 800; margin: 10px 0 18px; }
-
-    .cta-row { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:14px; }
-    .cta { display:inline-flex; align-items:center; gap:8px; padding: 12px 18px; border-radius: 14px; font-weight: 800; transition: transform .05s ease; }
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 14px 22px; border-radius: 16px;
+      background: #39ff14; color: #000; font-weight: 900;
+      box-shadow: 0 0 18px rgba(0,255,0,.45);
+      transition: transform .06s ease;
+    }
     .cta:active { transform: translateY(1px); }
-    .cta.primary { background: #39ff14; color: #000; box-shadow: 0 0 16px rgba(0,255,0,.5); }
-    .cta.secondary { color:#fff; border: 1px solid #2a2a2a; background:#0a0a0a; }
-    .cta.ghost { color:#39ff14; border:1px solid #264d22; background:#0b130b; }
-
-    .links { margin-top: 6px; display:flex; gap:14px; justify-content:center; }
-    .link { color:#aaa; } .link:hover { color:#fff; }
-
-    /* Sections */
-    .how { padding: 28px 16px 8px; max-width: 1000px; margin: 0 auto; }
-    .how h2 { margin: 0 0 14px; font-size: 28px; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-    .tile { background:#0a0a0a; border:1px solid #1f1f1f; border-radius:14px; padding:14px; }
-    .tile h3 { margin:0 0 6px; font-size:18px; color:#fff; }
-    .tile p  { margin:0; color:#cfcfcf; }
-    .muted { color:#9e9e9e; font-size:13px; margin-top:10px; }
-
-    .faq { padding: 28px 16px 48px; max-width: 900px; margin: 0 auto; }
-    .faq h2 { margin: 0 0 12px; font-size: 28px; }
-    details { background:#0a0a0a; border:1px solid #1f1f1f; border-radius:12px; padding:12px 14px; margin:10px 0; }
-    summary { cursor:pointer; font-weight:600; }
-    summary::-webkit-details-marker { display:none; }
-
-    .footer { border-top:1px solid #1f1f1f; padding:16px; text-align:center; color:#aaa; }
-
-    /* LIVE pill */
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1px solid #39ff14;background:#132d12;color:#39ff14;font-weight:800}
-    .dot{width:10px;height:10px;border-radius:999px;background:#39ff14;box-shadow:0 0 10px rgba(57,255,20,.9);animation:pulse 1.2s infinite}
-    @keyframes pulse{0%{opacity:.5}50%{opacity:1}100%{opacity:.5}}
   </style>
 </head>
 <body>
-  <!-- Blood strip -->
-  <div class="blood-strip">
-    <span class="drip d1"></span><span class="drip d2"></span><span class="drip d3"></span><span class="drip d4"></span><span class="drip d5"></span>
-  </div>
-
-  <!-- Spiders -->
-  <span class="spider"></span>
-  <span class="spider s2"></span>
-
   <main class="container">
-    <!-- Logo (place boocamp-logo.png beside this file) -->
+    <!-- Put your logo image in the same folder as this file, named boocamp-logo.png -->
     <img src="boocamp-logo.png" alt="Boo Camp Logo" class="logo" />
 
-    <!-- Headline with knife + hat -->
-    <div class="title-wrap">
-      <h1 class="title">
-        <span class="word">
-          <svg class="icon icon-knife" viewBox="0 0 64 64" aria-hidden="true">
-            <path fill="#c9c9c9" d="M8 44l20-20 6 6-20 20c-2 2-5 2-7 0s-2-5 1-6z"/>
-            <path fill="#7a0000" d="M34 24l4-4 18-1-1 18-4 4z"/>
-          </svg>
-          Survive
-        </span>
-        <span class="word">Boo</span>
-        <span class="word">
-          Camp
-          <svg class="icon icon-hat" viewBox="0 0 64 64" aria-hidden="true">
-            <path fill="#2e2e2e" d="M16 40c0-8 8-16 16-16s16 8 16 16H16z"/>
-            <rect x="8" y="40" width="48" height="6" rx="3" fill="#3b3b3b"/>
-            <ellipse cx="32" cy="38" rx="10" ry="6" fill="#1f1f1f"/>
-          </svg>
-        </span>
-      </h1>
-    </div>
-
+    <h1 class="title">Survive Boo Camp</h1>
     <p class="tagline">31 days. You command the workout.</p>
 
     <div id="countdown" class="countdown"></div>
 
-    <div class="cta-row">
-      <a href="https://kick.com/jerrysnotfunny" target="_blank" class="cta primary">Watch on Kick</a>
-      <a href="https://www.tiktok.com/@jerrysnotfunny" target="_blank" class="cta secondary">TikTok</a>
-      <a id="ics-link" class="cta ghost" download="boocamp.ics">Add to Calendar</a>
-    </div>
-
-    <nav class="links">
-      <a href="#how" class="link">How to Participate</a>
-      <a href="#faq" class="link">FAQ</a>
-    </nav>
+    <a href="https://kick.com/jerrysnotfunny" target="_blank" class="cta">Watch on Kick</a>
   </main>
 
-  <section id="how" class="how">
-    <h2>How to Participate</h2>
-    <div class="grid">
-      <article class="tile"><h3>1 Sub</h3><p>+10 Push-ups</p></article>
-      <article class="tile"><h3>Gift 200 coins</h3><p>+20 Jumping Jacks</p></article>
-      <article class="tile"><h3>Channel Points: Burn</h3><p>Viewer’s choice: Burpees / Plank / Sit-ups</p></article>
-      <article class="tile"><h3>Daily Boss</h3><p>Hit goal → Mask on → 100 Burpees</p></article>
-    </div>
-    <p class="muted">Totals stack live on stream. Some perks may be platform-specific.</p>
-  </section>
-
-  <section id="faq" class="faq">
-    <h2>FAQ</h2>
-    <details open><summary>When does Boo Camp run?</summary><p>October 1–31. New mission unlocks every day.</p></details>
-    <details><summary>Is it only on Kick?</summary><p>No. I’ll be multistreaming to <strong>TikTok</strong> and <strong>Kick</strong>.</p></details>
-    <details><summary>Will there be merch?</summary><p>Yes — limited “I Survived Boo Camp 2025” drop mid-October. Details announced on stream.</p></details>
-    <details><summary>Do triggers work on both platforms?</summary><p>Yes. Gifts/subs on either TikTok or Kick count toward the workout totals.</p></details>
-  </section>
-
-  <footer class="footer">© 2025 JerrysNotFunny – Boo Camp</footer>
-
   <script>
-    // === Countdown to Oct 1, 2025 @ 11:00 AM Central (CDT, UTC-5) ===
+    // Countdown to Oct 1, 2025 @ 11:00 AM Central (CDT, UTC-5)
     const startDate = new Date("2025-10-01T11:00:00-05:00");
 
     function updateCountdown() {
@@ -167,35 +84,14 @@
       const m = Math.floor((total / (1000*60)) % 60);
       const s = Math.floor((total / 1000) % 60);
       const el = document.getElementById('countdown');
-
-      // Force-live via ?live=1 OR automatically during Oct 1–31 (Central month)
-      const params = new URLSearchParams(location.search);
-      const forceLive = params.get('live') === '1';
-      const isOctober = (d === 0 && total === 0) || (new Date().getMonth() === 9); // month index 9 = October
-
-      if (forceLive || total <= 0 || isOctober) {
-        el.innerHTML = '<span class="pill"><span class="dot"></span> LIVE NOW</span>';
+      if (total <= 0) {
+        el.textContent = "LIVE NOW";
       } else {
         el.textContent = `${d}d ${h}h ${m}m ${s}s`;
       }
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();
-
-    // === On-the-fly .ics file for “Add to Calendar” ===
-    (function makeICS(){
-      const ics = [
-        "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//BooCamp//EN","BEGIN:VEVENT",
-        "UID:boocamp-2025-10-01","DTSTAMP:20250101T000000Z",
-        "DTSTART:20251001T160000Z",   // 11:00 AM CDT = 16:00 UTC
-        "DTEND:20251001T180000Z",
-        "SUMMARY:Boo Camp Starts – Watch on Kick",
-        "DESCRIPTION:31 days. You command the workout. https://kick.com/jerrysnotfunny",
-        "END:VEVENT","END:VCALENDAR"
-      ].join("\\r\\n");
-      const blob = new Blob([ics], { type: "text/calendar" });
-      document.getElementById("ics-link").href = URL.createObjectURL(blob);
-    })();
   </script>
 </body>
 </html>
