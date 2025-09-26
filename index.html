@@ -7,53 +7,63 @@
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    html, body { margin: 0; background: #000; color: #fff; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    html, body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      text-align: center;
+    }
     a { color: #39ff14; text-decoration: none; }
     a:hover { filter: brightness(1.1); }
 
     .container {
       min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 24px 16px; text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
     }
 
-    /* Bigger logo (about 3x). Responsive cap for phones. */
+    /* Logo — make it really pop */
     .logo {
-      height: clamp(140px, 28vw, 270px);
+      height: clamp(200px, 40vw, 380px);
       width: auto;
       display: block;
-      margin: 0 auto 12px;
-      filter: drop-shadow(0 0 22px rgba(255,0,0,.35));
+      margin: 0 auto 20px;
+      filter: drop-shadow(0 0 24px rgba(255,0,0,0.6));
     }
 
     .title {
-      margin: 0 0 6px 0;
-      font-size: clamp(36px, 6vw, 64px);
+      margin: 0 0 8px 0;
+      font-size: clamp(36px, 7vw, 68px);
       font-weight: 900;
-      letter-spacing: .5px;
       color: #ff3636;
-      text-shadow: 0 0 12px rgba(255,0,0,.55);
+      text-shadow: 0 0 18px rgba(255,0,0,0.6);
     }
 
     .tagline {
-      margin: 6px 0 22px;
+      margin: 8px 0 24px;
       color: #cfcfcf;
-      font-size: clamp(16px, 2.8vw, 20px);
+      font-size: clamp(16px, 2.5vw, 22px);
     }
 
     .countdown {
-      font-size: clamp(28px, 6vw, 56px);
+      font-size: clamp(28px, 7vw, 60px);
       font-weight: 800;
-      letter-spacing: .5px;
-      margin: 8px 0 20px;
+      margin: 10px 0 30px;
     }
 
     .cta {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 8px; padding: 14px 22px; border-radius: 16px;
-      background: #39ff14; color: #000; font-weight: 900;
-      box-shadow: 0 0 18px rgba(0,255,0,.45);
+      display: inline-block;
+      padding: 16px 26px;
+      border-radius: 16px;
+      background: #39ff14;
+      color: #000;
+      font-weight: 900;
+      font-size: 20px;
+      box-shadow: 0 0 20px rgba(0,255,0,0.5);
       transition: transform .06s ease;
     }
     .cta:active { transform: translateY(1px); }
@@ -61,8 +71,8 @@
 </head>
 <body>
   <main class="container">
-    <!-- Put your logo image in the same folder as this file, named boocamp-logo.png -->
-    <img src="boocamp-logo.png" alt="Boo Camp Logo" class="logo" />
+    <!-- Logo: make sure file is in repo root named exactly boocamp-logo.png -->
+    <img src="boocamp-logo.png?v=3" alt="Boo Camp Logo" class="logo" />
 
     <h1 class="title">Survive Boo Camp</h1>
     <p class="tagline">31 days. You command the workout.</p>
@@ -73,7 +83,7 @@
   </main>
 
   <script>
-    // Countdown to Oct 1, 2025 @ 11:00 AM Central (CDT, UTC-5)
+    // Countdown to Oct 1, 2025 at 11:00 AM Central (CDT, UTC-5)
     const startDate = new Date("2025-10-01T11:00:00-05:00");
 
     function updateCountdown() {
